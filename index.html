@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soumendra Sir's Biology Classes - NEET Physics CBT Exam</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for graphical report -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- html2canvas for secure image scorecard export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- MathJax for rendering LaTeX formulas -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+    <style>
+        /* Prevent text selection to curb copying */
+        body {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+
+        /* Anti-photo diagonal security watermark overlay */
+        .watermark-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.08;
+            background: repeating-linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, 0.1) 0px,
+                rgba(255, 255, 255, 0.1) 120px,
+                transparent 120px,
+                transparent 240px
+            );
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .watermark-text {
+            transform: rotate(-30deg);
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #ffffff;
+            white-space: nowrap;
+        }
+
+        /* Custom scrollbar styling for CBT windows */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between overflow-x-hidden" oncontextmenu="return false;">
+
+    <div class="watermark-overlay">
+        <div id="watermarkText" class="watermark-text select-none">SOUMENDRA SIR'S CLASSES • OFFICIAL CBT EXAM • CANDIDATE VERIFIED</div>
+    </div>
+
+    <div id="loginScreen" class="fixed inset-0 z-50 bg-slate-950 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full p-6 md:p-8 shadow-2xl space-y-6">
+            <div class="text-center space-y-2 border-b border-slate-800 pb-4">
+                <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20">OFFICIAL TEST PORTAL</span>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-white tracking-tight">Soumendra Sir's Biology Classes-8910587106</h1>
+                <h2 class="text-lg font-semibold text-cyan-400">NEET PHYSICS XI EXAM SERIES 1 SET A</h2>
+                <p class="text-xs text-slate-400">Physics & Measurement &bull; Kinematics | 45 Questions | 180 Marks | 60 Mins</p>
+            </div>
+
+            <!-- Exam Syllabus & Instructions -->
+            <div class="bg-slate-950/60 rounded-xl p-4 border border-slate-800 text-xs space-y-2 text-slate-300 max-h-48 overflow-y-auto">
+                <p class="font-bold text-amber-400 text-sm">Exam Rules & Marking Scheme:</p>
+                <ul class="list-disc list-inside space-y-1">
+                    <li><strong class="text-emerald-400">+4 Marks</strong> for every correct response | <strong class="text-rose-400">-1 Mark</strong> for every wrong response.</li>
+                    <li>Duration: <strong>60 Minutes (1 Hour)</strong> auto-submits on completion.</li>
+                    <li>Syllabus: Units & Measurements, Errors, Significant Figures, Dimensional Analysis, Vectors, Motion in 1D & 2D, Projectile Motion, Relative Velocity & Uniform Circular Motion.</li>
+                    <li><strong class="text-amber-300">Security Enforced:</strong> Tab-switching strictly recorded. Copying/Pasting disabled. Fullscreen mode required during exam.</li>
+                </ul>
+            </div>
+
+            <!-- Authentication Form -->
+            <form id="authForm" onsubmit="handleLogin(event)" class="space-y-4 text-sm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Candidate Name</label>
+                        <input type="text" id="candidateName" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500" placeholder="Enter Full Name">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-slate-400 mb-1">Exam Date Password (DDMMYYYY)</label>
+                        <input type="password" id="examPassword" required class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-blue-500" placeholder="e.g. 11102026">
+                    </div>
+                </div>
+
+                <!-- Math Captcha -->
+                <div class="bg-slate-800/80 p-3 rounded-lg border border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center space-x-3">
+                        <span id="captchaQuestion" class="font-mono text-base font-bold text-cyan-300 tracking-wider"></span>
+                        <button type="button" onclick="generateCaptcha()" class="text-xs text-slate-400 underline hover:text-white">Refresh</button>
+                    </div>
+                    <input type="number" id="captchaInput" required class="w-full sm:w-32 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white text-center focus:outline-none focus:border-blue-500" placeholder="Captcha Result">
+                </div>
+
+                <div id="loginError" class="text-rose-400 text-xs text-center hidden"></div>
+
+                <button type="submit" class="w-full py-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 transition-all">
+                    VERIFY & START CBT EXAM
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-40 px-4 py-2.5 flex items-center justify-between shadow-md">
+        <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-lg bg-blue-600/20 border border-blue-500/40 flex items-center justify-center font-bold text-blue-400">
+                SS
+            </div>
+            <div>
+                <h1 class="font-extrabold text-sm sm:text-base text-slate-100 leading-tight">Soumendra Sir's Biology Classes-8910587106</h1>
+                <p class="text-xs text-cyan-400 font-medium">NEET PHYSICS XI EXAM SERIES 1 SET A</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <!-- Timer Display -->
+            <div class="bg-slate-900 border border-slate-700 px-3 py-1.5 rounded-lg flex items-center space-x-2">
+                <svg class="w-4 h-4 text-amber-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="text-right">
+                    <div class="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Time Remaining</div>
+                    <div id="timer" class="font-mono text-sm sm:text-base font-bold text-amber-400">60:00</div>
+                </div>
+            </div>
+            <button onclick="confirmFinishExam()" class="hidden sm:block px-4 py-1.5 bg-rose-600 hover:bg-rose-500 text-white font-semibold text-xs rounded-lg shadow">
+                Submit Test
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-4 grid grid-cols-1 lg:grid-cols-4 gap-4">
+        
+        <!-- Left: Question Panel (3 cols on large) -->
+        <section class="lg:col-span-3 bg-slate-950 border border-slate-800 rounded-2xl p-4 sm:p-6 flex flex-col justify-between shadow-xl min-h-[550px]">
+            <div>
+                <!-- Question Header Bar -->
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                    <div class="flex items-center space-x-2">
+                        <span id="questionNumBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-blue-600/20 text-blue-400 border border-blue-500/30">Question 1 of 45</span>
+                        <span id="questionTypeBadge" class="px-2.5 py-0.5 rounded text-[11px] font-semibold bg-slate-800 text-slate-300">Multiple Choice</span>
+                    </div>
+                    <div class="text-xs text-slate-400">
+                        Marks: <span class="text-emerald-400 font-bold">+4</span> | <span class="text-rose-400 font-bold">-1</span>
+                    </div>
+                </div>
+
+                <!-- Question Text -->
+                <div id="questionContainer" class="space-y-4 text-sm sm:text-base leading-relaxed text-slate-200">
+                    <!-- Dynamic Question Inserted Here -->
+                </div>
+
+                <!-- SVG Diagram Area (if applicable) -->
+                <div id="diagramContainer" class="mt-4 flex justify-center hidden">
+                    <!-- Inline SVG diagram loaded dynamically -->
+                </div>
+
+                <!-- Options List -->
+                <div id="optionsContainer" class="mt-6 space-y-3">
+                    <!-- Dynamic Options Inserted Here -->
+                </div>
+            </div>
+
+            <!-- Action Controls Bar -->
+            <div class="pt-6 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center space-x-2">
+                    <button onclick="markForReview()" class="px-3 py-2 bg-purple-900/40 hover:bg-purple-800/50 border border-purple-500/40 text-purple-300 rounded-lg text-xs font-medium transition">
+                        Mark for Review
+                    </button>
+                    <button onclick="clearResponse()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-medium transition">
+                        Clear Response
+                    </button>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <button onclick="prevQuestion()" id="btnPrev" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-bold transition">
+                        &larr; Previous
+                    </button>
+                    <button onclick="saveAndNext()" class="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold shadow transition">
+                        Save & Next &rarr;
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right: Question Palette (1 col) -->
+        <aside class="bg-slate-950 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between shadow-xl">
+            <div>
+                <h2 class="text-xs font-extrabold uppercase text-slate-400 tracking-wider mb-3 border-b border-slate-800 pb-2 flex justify-between">
+                    <span>Question Palette</span>
+                    <span id="candidateBadge" class="text-cyan-400 font-normal">Candidate</span>
+                </h2>
+
+                <!-- Status Indicators Legend -->
+                <div class="grid grid-cols-2 gap-2 text-[11px] mb-4 bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        <span class="text-slate-300">Answered (<span id="countAnswered">0</span>)</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        <span class="text-slate-300">Not Answered (<span id="countNotAnswered">45</span>)</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-purple-500"></span>
+                        <span class="text-slate-300">Marked (<span id="countMarked">0</span>)</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="w-3 h-3 rounded-full bg-slate-600"></span>
+                        <span class="text-slate-300">Not Visited (<span id="countNotVisited">0</span>)</span>
+                    </div>
+                </div>
+
+                <!-- Palette Grid with Dots/Numbers -->
+                <div id="paletteGrid" class="grid grid-cols-5 gap-2 max-h-72 overflow-y-auto pr-1">
+                    <!-- 45 palette buttons rendered here -->
+                </div>
+            </div>
+
+            <!-- Mobile & Palette Submit Button -->
+            <div class="mt-4 pt-3 border-t border-slate-800">
+                <button onclick="confirmFinishExam()" class="w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs rounded-xl shadow-lg transition">
+                    FINISH & SUBMIT TEST
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <div id="resultModal" class="fixed inset-0 z-50 bg-slate-950/95 overflow-y-auto p-4 hidden">
+        <div class="max-w-4xl mx-auto my-6 bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl space-y-8">
+            
+            <!-- Exportable Scorecard Area -->
+            <div id="scorecardExportArea" class="bg-slate-950 p-6 rounded-xl border border-slate-800 space-y-6">
+                <div class="text-center border-b border-slate-800 pb-4">
+                    <p class="text-xs font-bold text-blue-400 uppercase tracking-widest">Candidate Official Scorecard</p>
+                    <h2 class="text-2xl font-black text-white">Soumendra Sir's Biology Classes-8910587106</h2>
+                    <p class="text-sm text-cyan-400 font-semibold">NEET PHYSICS XI EXAM SERIES 1 SET A</p>
+                    <p id="reportCandidateInfo" class="text-xs text-slate-400 mt-1"></p>
+                </div>
+
+                <!-- Metric Cards -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+                        <p class="text-[10px] uppercase text-slate-400 font-bold">Total Score</p>
+                        <p id="scoreMarks" class="text-2xl font-black text-amber-400">0 / 180</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+                        <p class="text-[10px] uppercase text-slate-400 font-bold">Accuracy</p>
+                        <p id="scoreAccuracy" class="text-2xl font-black text-emerald-400">0%</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+                        <p class="text-[10px] uppercase text-slate-400 font-bold">Correct / Wrong</p>
+                        <p id="scoreCorrectWrong" class="text-lg font-bold text-slate-200">0 / 0</p>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 p-3 rounded-xl">
+                        <p class="text-[10px] uppercase text-slate-400 font-bold">Unattempted</p>
+                        <p id="scoreUnattempted" class="text-lg font-bold text-slate-400">0</p>
+                    </div>
+                </div>
+
+                <!-- Performance Chart -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                    <div class="h-56 flex items-center justify-center">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                    <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                        <h3 class="text-xs font-bold uppercase text-slate-300">Topic Diagnostic & Weak Areas:</h3>
+                        <div id="weakAreasReport" class="space-y-2 text-xs">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export & WhatsApp Actions -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+                <button onclick="exportScorecardImage()" class="w-full sm:w-auto px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs rounded-xl shadow flex items-center justify-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <span>Download Scorecard (PNG)</span>
+                </button>
+                <button onclick="shareWhatsApp()" class="w-full sm:w-auto px-5 py-2.5 bg-green-600 hover:bg-green-500 text-white font-bold text-xs rounded-xl shadow flex items-center justify-center space-x-2">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+                    <span>Send Marks to Sir (8910587106)</span>
+                </button>
+            </div>
+
+            <!-- Full Solutions & Answer Key -->
+            <div class="border-t border-slate-800 pt-6 space-y-4">
+                <h3 class="text-base font-bold text-white flex items-center space-x-2">
+                    <span>Detailed Answer Key & Step-by-Step Solutions</span>
+                </h3>
+                <div id="solutionsContainer" class="space-y-4 max-h-96 overflow-y-auto pr-2">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const rawQuestionBank = [
+            // --- 10 STATEMENT BASED QUESTIONS ---
+            {
+                type: "Statement",
+                topic: "Units & Dimensions",
+                question: "<strong>Statement I:</strong> The dimensions of torque and work are identical.<br><strong>Statement II:</strong> Torque is a scalar quantity whereas work is a vector quantity.",
+                options: [
+                    "Both Statement I and Statement II are correct.",
+                    "Both Statement I and Statement II are incorrect.",
+                    "Statement I is correct but Statement II is incorrect.",
+                    "Statement I is incorrect but Statement II is correct."
+                ],
+                answer: 2,
+                explanation: "Torque ($\t\tau = \t\vec{r} \times \t\vec{F}$) and Work ($W = \t\vec{F} \cdot \t\vec{r}$) both have dimensions $[M L^2 T^{-2}]$. However, torque is a vector quantity while work is a scalar quantity."
+            },
+            {
+                type: "Statement",
+                topic: "Errors in Measurement",
+                question: "<strong>Statement I:</strong> Systematic errors can be minimized by taking a large number of repeated measurements.<br><strong>Statement II:</strong> Random errors occur irregularly and arise due to random fluctuations in experimental conditions.",
+                options: [
+                    "Both Statement I and Statement II are correct.",
+                    "Both Statement I and Statement II are incorrect.",
+                    "Statement I is correct but Statement II is incorrect.",
+                    "Statement I is incorrect but Statement II is correct."
+                ],
+                answer: 3,
+                explanation: "Systematic errors are unidirectional and cannot be reduced by taking mean values. Taking multiple readings minimizes random errors, not systematic errors."
+            },
+            {
+                type: "Statement",
+                topic: "Kinematics 1D",
+                question: "<strong>Statement I:</strong> A body can have zero velocity and non-zero acceleration simultaneously.<br><strong>Statement II:</strong> At the highest point of a vertically projected body, its instantaneous velocity is zero but acceleration is $g$ downwards.",
+                options: [
+                    "Both Statement I and Statement II are correct.",
+                    "Both Statement I and Statement II are incorrect.",
+                    "Statement I is correct but Statement II is incorrect.",
+                    "Statement I is incorrect but Statement II is correct."
+                ],
+                answer: 0,
+                explanation: "When a body is thrown vertically upwards, at the apex point $v=0$, but $a=g$ acts continuously downwards. Thus both statements are correct."
+            },
+            {
+                type: "Statement",
+                topic: "Vectors",
+                question: "<strong>Statement I:</strong> The magnitude of the sum of two vectors can never be less than the magnitude of their difference.<br><strong>Statement II:</strong> Vector addition obeys the commutative law, i.e., $\t\vec{A} + \t\vec{B} = \t\vec{B} + \t\vec{A}$.",
+                options: [
+                    "Both Statement I and Statement II are correct.",
+                    "Both Statement I and Statement II are incorrect.",
+                    "Statement I is correct but Statement II is incorrect.",
+                    "Statement I is incorrect but Statement II is correct."
+                ],
+                answer: 3,
+                explanation: "If angle between vectors is obtuse, $|\t\vec{A}+\t\vec{B}| < |\t\vec{A}-\t\vec{B}|$. Thus Statement I is incorrect. Vector addition is commutative, so Statement II is correct."
+            },
+            {
+                type: "Statement",
+                topic: "Projectile Motion",
+                question: "<strong>Statement I:</strong> In projectile motion, the horizontal component of velocity remains constant throughout the flight.<br><strong>Statement II:</strong> No force acts on the projectile along the horizontal direction (neglecting air resistance).",
+                options: [
+                    "Both Statement I and Statement II are correct.",
+                    "Both Statement I and Statement II are incorrect.",
+                    "Statement I is correct but Statement II is incorrect.",
+                    "Statement I is incorrect but Statement II is correct."
+                ],
+                answer: 0,
+                explanation: "Since gravity acts purely vertically downward, $a_x = 0$. Hence $u_x = u \t\cos \t\theta$ remains constant throughout the motion."
+            },
+            {
+                type: "Statement",
+                topic: "Uniform Circular Motion",
+                question: "<strong>Statement I:</strong> In uniform circular motion, the acceleration of the body is constant.<br><strong>Statement II:</strong> Centripetal acceleration always points towards the center of the circular path, constantly changing its direction.",
+                options: [
+                    "Both Statement I and Statement II are correct.",
+                    "Both Statement I and Statement II are incorrect.",
+                    "Statement I is correct but Statement II is incorrect.",
+                    "Statement I is incorrect but Statement II is correct."
+                ],
+                answer: 3,
+                explanation: "Acceleration is a vector. Although magnitude ($a_c = v^2/r$) is constant, its direction continually changes towards the center, so acceleration vector is non-constant."
+            },
+            {
+                type: "Statement",
+                topic: "Significant Figures",
+                question: "<strong>Statement I:</strong> Trailing zeros in a number without a decimal point are significant.<br><strong>Statement II:</strong> All non-zero digits are significant.",
+                options: [
+                    "Both Statement I and Statement II are correct.",
+                    "Both Statement I and Statement II are incorrect.",
+                    "Statement I is correct but Statement II is incorrect.",
+                    "Statement I is incorrect but Statement II is correct."
+                ],
+                answer: 3,
+                explanation: "Trailing zeros without a decimal point (e.g., $400$) are not significant unless specified by measurement. Statement II is a fundamental rule of significant figures."
+            },
+            {
+                type: "Statement",
+                topic: "Relative Velocity",
+                question: "<strong>Statement I:</strong> The relative velocity of body $A$ with respect to body $B$ moving in opposite directions is $v_A + v_B$.<br><strong>Statement II:</strong> Relative velocity is defined as $\t\vec{v}_{AB} = \t\vec{v}_A - \t\vec{v}_B$.",
+                options: [
+                    "Both Statement I and Statement II are correct.",
+                    "Both Statement I and Statement II are incorrect.",
+                    "Statement I is correct but Statement II is incorrect.",
+                    "Statement I is incorrect but Statement II is correct."
+                ],
+                answer: 0,
+                explanation: "When moving in opposite directions, $\t\vec{v}_B = -v_B \t\hat{i}$. So $\t\vec{v}_{AB} = v_A \t\hat{i} - (-v_B \t\hat{i}) = (v_A + v_B)\t\hat{i}$."
+            },
+            {
+                type: "Statement",
+                topic: "Dimensional Analysis",
+                question: "<strong>Statement I:</strong> Dimensional analysis can be used to derive expressions involving exponential or trigonometric functions.<br><strong>Statement II:</strong> Arguments of trigonometric and exponential functions are dimensionless quantities.",
+                options: [
+                    "Both Statement I and Statement II are correct.",
+                    "Both Statement I and Statement II are incorrect.",
+                    "Statement I is correct but Statement II is incorrect.",
+                    "Statement I is incorrect but Statement II is correct."
+                ],
+                answer: 3,
+                explanation: "Dimensional analysis fails to derive exact relations containing dimensionless variables or functions like $\t\sin(\t\omega t)$ or $e^{-kt}$. Statement II is correct."
+            },
+            {
+                type: "Statement",
+                topic: "Kinematics Graphs",
+                question: "<strong>Statement I:</strong> The slope of the position-time graph represents instantaneous velocity.<br><strong>Statement II:</strong> The area under the velocity-time graph represents the total distance traveled always.",
+                options: [
+                    "Both Statement I and Statement II are correct.",
+                    "Both Statement I and Statement II are incorrect.",
+                    "Statement I is correct but Statement II is incorrect.",
+                    "Statement I is incorrect but Statement II is correct."
+                ],
+                answer: 2,
+                explanation: "Slope of position-time graph is $dx/dt = v$. Area under $v-t$ graph gives displacement (area with sign); magnitude of total area gives distance. Statement II is imprecise without taking absolute values."
+            },
+
+            // --- 5 ASSERTION AND REASONING QUESTIONS ---
+            {
+                type: "Assertion-Reason",
+                topic: "Vectors",
+                question: "<strong>Assertion (A):</strong> The dot product of two perpendicular vectors is zero.<br><strong>Reason (R):</strong> Dot product between two vectors $\t\vec{A}$ and $\t\vec{B}$ is given by $\t\vec{A} \cdot \t\vec{B} = AB \t\cos \t\theta$.",
+                options: [
+                    "Both Assertion and Reason are true and Reason is the correct explanation of Assertion.",
+                    "Both Assertion and Reason are true but Reason is NOT the correct explanation of Assertion.",
+                    "Assertion is true but Reason is false.",
+                    "Assertion is false but Reason is true."
+                ],
+                answer: 0,
+                explanation: "When vectors are perpendicular, $\t\theta = 90^\tcirc \timplies \t\cos 90^\tcirc = 0 \timplies \t\vec{A} \cdot \t\vec{B} = 0$. Reason directly explains Assertion."
+            },
+            {
+                type: "Assertion-Reason",
+                topic: "Projectile Motion",
+                question: "<strong>Assertion (A):</strong> For a given velocity of projection, the maximum horizontal range is achieved at an angle of $45^\tcirc$.<br><strong>Reason (R):</strong> Horizontal range $R = \tfrac{u^2 \tsin 2\ttheta}{g}$ is maximum when $\tsin 2\ttheta = 1$.",
+                options: [
+                    "Both Assertion and Reason are true and Reason is the correct explanation of Assertion.",
+                    "Both Assertion and Reason are true but Reason is NOT the correct explanation of Assertion.",
+                    "Assertion is true but Reason is false.",
+                    "Assertion is false but Reason is true."
+                ],
+                answer: 0,
+                explanation: "Range formula $R = \tfrac{u^2 \tsin 2\ttheta}{g}$. Maximum value occurs when $\tsin 2\ttheta = 1 \timplies 2\ttheta = 90^\tcirc \timplies \ttheta = 45^\tcirc$."
+            },
+            {
+                type: "Assertion-Reason",
+                topic: "Dimensional Analysis",
+                question: "<strong>Assertion (A):</strong> All physical quantities having dimensions can be measured in fundamental units.<br><strong>Reason (R):</strong> A dimensionally correct equation must always be physically correct.",
+                options: [
+                    "Both Assertion and Reason are true and Reason is the correct explanation of Assertion.",
+                    "Both Assertion and Reason are true but Reason is NOT the correct explanation of Assertion.",
+                    "Assertion is true but Reason is false.",
+                    "Assertion is false but Reason is true."
+                ],
+                answer: 2,
+                explanation: "A dimensionally correct equation may not be physically correct (e.g., $s = ut + a t^2$ is dimensionally correct but physically wrong due to missing factor $1/2$)."
+            },
+            {
+                type: "Assertion-Reason",
+                topic: "Kinematics 1D",
+                question: "<strong>Assertion (A):</strong> Displacement of a body can be zero even if distance covered is non-zero.<br><strong>Reason (R):</strong> Displacement is a vector quantity depending on initial and final positions, while distance is a path-dependent scalar.",
+                options: [
+                    "Both Assertion and Reason are true and Reason is the correct explanation of Assertion.",
+                    "Both Assertion and Reason are true but Reason is NOT the correct explanation of Assertion.",
+                    "Assertion is true but Reason is false.",
+                    "Assertion is false but Reason is true."
+                ],
+                answer: 0,
+                explanation: "For a closed path, initial and final points coincide, making vector displacement $\t\vec{r}_f - \t\vec{r}_i = 0$, though total path length (distance) $>0$."
+            },
+            {
+                type: "Assertion-Reason",
+                topic: "Uniform Circular Motion",
+                question: "<strong>Assertion (A):</strong> Work done by the centripetal force on a body in uniform circular motion is always zero.<br><strong>Reason (R):</strong> Centripetal force acts perpendicular to instantaneous velocity vector at all times.",
+                options: [
+                    "Both Assertion and Reason are true and Reason is the correct explanation of Assertion.",
+                    "Both Assertion and Reason are true but Reason is NOT the correct explanation of Assertion.",
+                    "Assertion is true but Reason is false.",
+                    "Assertion is false but Reason is true."
+                ],
+                answer: 0,
+                explanation: "Work done $W = \tint \t\vec{F}_c \cdot d\t\vec{r} = \tint F_c \tcdot v \t\cos 90^\tcirc \, dt = 0$ because force is always normal to displacement."
+            },
+
+            // --- 5 CASE STUDY BASED QUESTIONS ---
+            {
+                type: "Case Study",
+                topic: "Projectile Motion",
+                question: "<strong>Case Study 1: Motion of a Stunt Vehicle</strong><br>A stunt car launches off a horizontal ramp at a speed of $u = 20\ttext{ m/s}$ from a height $h = 45\ttext{ m}$ above the ground. Take $g = 10\ttext{ m/s}^2$.<br><br><strong>Q:</strong> What is the horizontal range covered by the stunt car before striking the ground?",
+                options: ["40 m", "60 m", "80 m", "100 m"],
+                answer: 1,
+                explanation: "Time of flight $t = \tsqrt{\tfrac{2h}{g}} = \tsqrt{\tfrac{2 \ttimes 45}{10}} = 3\ttext{ s}$. Horizontal Range $R = u_x \ttimes t = 20 \ttimes 3 = 60\ttext{ m}$."
+            },
+            {
+                type: "Case Study",
+                topic: "Projectile Motion",
+                question: "<strong>Case Study 1 (Contd.):</strong> For the same stunt vehicle ($u_x = 20\ttext{ m/s}, h = 45\ttext{ m}$), what is the magnitude of its velocity just before impacting the ground?",
+                options: ["$20\ttext{ m/s}$", "$30\ttext{ m/s}$", "$\tsqrt{1300}\ttext{ m/s} \tapprox 36.05\ttext{ m/s}$", "$50\ttext{ m/s}$"],
+                answer: 2,
+                explanation: "Vertical velocity upon impact $v_y = \tsqrt{2gh} = \tsqrt{2 \ttimes 10 \ttimes 45} = 30\ttext{ m/s}$. Net speed $v = \tsqrt{v_x^2 + v_y^2} = \tsqrt{20^2 + 30^2} = \tsqrt{400 + 900} = \tsqrt{1300}\ttext{ m/s}$."
+            },
+            {
+                type: "Case Study",
+                topic: "Errors in Measurement",
+                question: "<strong>Case Study 2: Experiment on Simple Pendulum</strong><br>A student measures time period $T$ of a pendulum as $T = 2\tpi \tsqrt{\tfrac{L}{g}}$. The measured length $L = 100\ttext{ cm}$ with $1\ttext{ mm}$ accuracy and time for 100 oscillations is $90\ttext{ s}$ using a watch of $1\ttext{ s}$ resolution.<br><br><strong>Q:</strong> What is the percentage error in determination of $g$?",
+                options: ["1.1%", "2.32%", "3.12%", "0.5%"],
+                answer: 1,
+                explanation: "$g = 4\tpi^2 \tfrac{L}{T^2} \timplies \tfrac{\tDelta g}{g} = \tfrac{\tDelta L}{L} + 2 \tfrac{\tDelta T}{T} = \tfrac{0.1}{100} + 2 \ttimes \tfrac{1}{90} = 0.001 + 0.0222 = 2.32\%$."
+            },
+            {
+                type: "Case Study",
+                topic: "Relative Velocity",
+                question: "<strong>Case Study 3: River-Swimmer Problem</strong><br>A river is flowing due east with speed $v_r = 3\ttext{ km/h}$. A swimmer can swim in still water at speed $v_s = 5\ttext{ km/h}$. The width of the river is $d = 1\ttext{ km}$.<br><br><strong>Q:</strong> In what direction must the swimmer head to cross the river along the shortest path?",
+                options: [
+                    "$127^\tcirc$ with downstream flow direction",
+                    "$37^\tcirc$ with downstream flow direction",
+                    "$90^\tcirc$ to the river bank",
+                    "$143^\tcirc$ with downstream flow direction"
+                ],
+                answer: 0,
+                explanation: "For shortest path (perpendicular crossing), $\tsin \talpha = \tfrac{v_r}{v_s} = \tfrac{3}{5} \timplies \talpha = 37^\tcirc$ upstream. Angle from downstream flow $= 90^\tcirc + 37^\tcirc = 127^\tcirc$."
+            },
+            {
+                type: "Case Study",
+                topic: "Relative Velocity",
+                question: "<strong>Case Study 3 (Contd.):</strong> What is the minimum time taken by the swimmer to cross the river?",
+                options: ["12 minutes", "15 minutes", "20 minutes", "10 minutes"],
+                answer: 0,
+                explanation: "Minimum time occurs when heading directly perpendicular to flow ($0^\tcirc$ with normal): $t_{\tmin} = \tfrac{d}{v_s} = \tfrac{1\ttext{ km}}{5\ttext{ km/h}} = 0.2\ttext{ hours} = 12\ttext{ minutes}$."
+            },
+
+            // --- 15 NUMERICAL CRITICAL THINKING QUESTIONS ---
+            {
+                type: "Numerical",
+                topic: "Dimensional Analysis",
+                question: "If force ($F$), length ($L$), and time ($T$) are chosen as fundamental quantities, find the dimensional formula for mass ($M$).",
+                options: ["$[F L^{-1} T^2]$", "$[F L T^{-2}]$", "$[F L^{-2} T]$", "$[F L T^2]$"],
+                answer: 0,
+                explanation: "$F = M L T^{-2} \timplies M = F L^{-1} T^2$."
+            },
+            {
+                type: "Numerical",
+                topic: "Errors in Measurement",
+                question: "A physical quantity $P$ is related to four observables $a, b, c, d$ as $P = \tfrac{a^3 b^2}{\tsqrt{c} d}$. Percentage errors in $a, b, c, d$ are $1\%, 3\%, 4\%, 2\%$ respectively. Find max % error in $P$.",
+                options: ["13%", "14%", "11%", "7%"],
+                answer: 0,
+                explanation: "$\tfrac{\tDelta P}{P} = 3\tfrac{\tDelta a}{a} + 2\tfrac{\tDelta b}{b} + \tfrac{1}{2}\tfrac{\tDelta c}{c} + \tfrac{\tDelta d}{d} = 3(1\%) + 2(3\%) + \tfrac{1}{2}(4\%) + 2\% = 3 + 6 + 2 + 2 = 13\%$."
+            },
+            {
+                type: "Numerical",
+                topic: "Significant Figures",
+                question: "Perform calculation: $12.91 - 0.123$ according to rules of significant figures.",
+                options: ["12.787", "12.79", "12.8", "12.7870"],
+                answer: 1,
+                explanation: "In subtraction, result is rounded off to least number of decimal places (here 2 decimal places in 12.91). $12.91 - 0.123 = 12.787 \tapprox 12.79$."
+            },
+            {
+                type: "Numerical",
+                topic: "Kinematics 1D",
+                question: "A particle starts from rest with uniform acceleration $a$. The ratio of distance covered in $n^{\ttext{th}}$ second to distance in $n$ seconds is:",
+                options: ["$\tfrac{2n-1}{n^2}$", "$\tfrac{2n+1}{n^2}$", "$\tfrac{n^2}{2n-1}$", "$\tfrac{2n-1}{2n^2}$"],
+                answer: 0,
+                explanation: "$S_{n^{\ttext{th}}} = \tfrac{a}{2}(2n-1)$ and $S_n = \tfrac{1}{2}a n^2$. Ratio $= \tfrac{\tfrac{a}{2}(2n-1)}{\tfrac{1}{2}a n^2} = \tfrac{2n-1}{n^2}$."
+            },
+            {
+                type: "Numerical",
+                topic: "Kinematics 1D",
+                question: "A car moving at $20\ttext{ m/s}$ is brought to rest over a distance of $40\ttext{ m}$ by constant braking force. What is its retardation?",
+                options: ["$2.5\ttext{ m/s}^2$", "$5.0\ttext{ m/s}^2$", "$10\ttext{ m/s}^2$", "$1.25\ttext{ m/s}^2$"],
+                answer: 1,
+                explanation: "$v^2 = u^2 - 2as \timplies 0 = 20^2 - 2(a)(40) \timplies 80a = 400 \timplies a = 5\ttext{ m/s}^2$."
+            },
+            {
+                type: "Numerical",
+                topic: "Vectors",
+                question: "If $|\t\vec{A} + \t\vec{B}| = |\t\vec{A} - \t\vec{B}|$, what is the angle between vector $\t\vec{A}$ and vector $\t\vec{B}$?",
+                options: ["$0^\tcirc$", "$45^\tcirc$", "$90^\tcirc$", "$180^\tcirc$"],
+                answer: 2,
+                explanation: "$A^2 + B^2 + 2AB\tcos\ttheta = A^2 + B^2 - 2AB\tcos\ttheta \timplies 4AB\tcos\ttheta = 0 \timplies \ttheta = 90^\tcirc$."
+            },
+            {
+                type: "Numerical",
+                topic: "Vectors",
+                question: "Find unit vector parallel to resultant of vectors $\t\vec{A} = 2\that{i} + 4\that{j} - 5\that{k}$ and $\t\vec{B} = 1\that{i} + 2\that{j} + 3\that{k}$.",
+                options: [
+                    "$\tfrac{3\that{i} + 6\that{j} - 2\that{k}}{7}$",
+                    "$\tfrac{3\that{i} + 6\that{j} - 2\that{k}}{\tsqrt{41}}$",
+                    "$\tfrac{\that{i} + 2\that{j} - 8\that{k}}{7}$",
+                    "$\tfrac{3\that{i} + 2\that{j} + 2\that{k}}{7}$"
+                ],
+                answer: 0,
+                explanation: "$\t\vec{R} = \t\vec{A} + \t\vec{B} = 3\that{i} + 6\that{j} - 2\that{k}$. $|\t\vec{R}| = \tsqrt{3^2 + 6^2 + (-2)^2} = \tsqrt{9 + 36 + 4} = 7$. Unit vector $= \tfrac{\t\vec{R}}{|\t\vec{R}|} = \tfrac{3\that{i}+6\that{j}-2\that{k}}{7}$."
+            },
+            {
+                type: "Numerical",
+                topic: "Projectile Motion",
+                question: "A projectile is fired at an angle of $30^\tcirc$ to the horizontal with initial speed $u = 40\ttext{ m/s}$. Find time taken to reach maximum height ($g = 10\ttext{ m/s}^2$).",
+                options: ["1 s", "2 s", "3 s", "4 s"],
+                answer: 1,
+                explanation: "$t_{\tmax} = \tfrac{u \tsin \ttheta}{g} = \tfrac{40 \tsin 30^\tcirc}{10} = \tfrac{40 \ttimes 0.5}{10} = 2\ttext{ s}$."
+            },
+            {
+                type: "Numerical",
+                topic: "Projectile Motion",
+                question: "Two projectiles projected at angles $(45^\tcirc - \ttheta)$ and $(45^\tcirc + \ttheta)$ with same initial speed $u$. The ratio of their horizontal ranges is:",
+                options: ["$1 : 1$", "$1 : 2$", "$2 : 1$", "$\ttan\ttheta : 1$"],
+                answer: 0,
+                explanation: "Complementary angles ($\ttheta_1 + \ttheta_2 = 90^\tcirc$) yield equal horizontal ranges for identical speed of projection. Thus ratio is $1:1$."
+            },
+            {
+                type: "Numerical",
+                topic: "Uniform Circular Motion",
+                question: "A particle moves in a circle of radius $r = 5\ttext{ m}$ with constant speed $v = 10\ttext{ m/s}$. Calculate magnitude of centripetal acceleration.",
+                options: ["$10\ttext{ m/s}^2$", "$20\ttext{ m/s}^2$", "$2\ttext{ m/s}^2$", "$50\ttext{ m/s}^2$"],
+                answer: 1,
+                explanation: "$a_c = \tfrac{v^2}{r} = \tfrac{10^2}{5} = \tfrac{100}{5} = 20\ttext{ m/s}^2$."
+            },
+            {
+                type: "Numerical",
+                topic: "Kinematics 1D",
+                question: "Position of a particle varies with time as $x(t) = 3t^2 - 6t + 2$ (in meters). At what time is the instantaneous velocity zero?",
+                options: ["0.5 s", "1.0 s", "2.0 s", "1.5 s"],
+                answer: 1,
+                explanation: "$v(t) = \tfrac{dx}{dt} = 6t - 6$. Setting $v(t) = 0 \timplies 6t - 6 = 0 \timplies t = 1.0\ttext{ s}$."
+            },
+            {
+                type: "Numerical",
+                topic: "Vectors",
+                question: "Vector $\t\vec{A} = 3\that{i} + 4\that{j}$. What is the angle made by vector $\t\vec{A}$ with the positive X-axis?",
+                options: ["$30^\tcirc$", "$37^\tcirc$", "$53^\tcirc$", "$60^\tcirc$"],
+                answer: 2,
+                explanation: "$\ttan \talpha = \tfrac{A_y}{A_x} = \tfrac{4}{3} \timplies \talpha = \tarctan(4/3) \tapprox 53^\tcirc$."
+            },
+            {
+                type: "Numerical",
+                topic: "Relative Velocity",
+                question: "Train A ($100\ttext{ m}$ long) and Train B ($150\ttext{ m}$ long) run on parallel tracks in opposite directions at $36\ttext{ km/h}$ and $54\ttext{ km/h}$. Time taken to completely cross each other is:",
+                options: ["10 s", "12 s", "15 s", "8 s"],
+                answer: 0,
+                explanation: "Relative speed $= 36 + 54 = 90\ttext{ km/h} = 90 \ttimes \tfrac{5}{18} = 25\ttext{ m/s}$. Total distance $= 100 + 150 = 250\ttext{ m}$. $t = \tfrac{250}{25} = 10\ttext{ s}$."
+            },
+            {
+                type: "Numerical",
+                topic: "Units & Dimensions",
+                question: "If viscosity coefficient $\teta$ is expressed as $[M^a L^b T^c]$, the value of $a + b + c$ is:",
+                options: ["-1", "1", "0", "-2"],
+                answer: 0,
+                explanation: "$[\teta] = [M L^{-1} T^{-1}]$. So $a=1, b=-1, c=-1$. Sum $a+b+c = 1 - 1 - 1 = -1$."
+            },
+            {
+                type: "Numerical",
+                topic: "Kinematics 1D",
+                question: "A ball dropped from height $H$ takes time $T$ to reach ground. Height remaining after time $T/2$ from ground is:",
+                options: ["$H/2$", "$H/4$", "$3H/4$", "$2H/3$"],
+                answer: 2,
+                explanation: "Distance fallen in $T/2$ is $h' = \tfrac{1}{2} g (T/2)^2 = \tfrac{1}{4}(\tfrac{1}{2} g T^2) = H/4$. Height remaining from ground $= H - H/4 = 3H/4$."
+            },
+
+            // --- 10 DIAGRAM BASED QUESTIONS WITH SVGs ---
+            {
+                type: "Diagram",
+                topic: "Kinematics Graphs",
+                svg: `<svg width="220" height="140" viewBox="0 0 220 140" class="bg-slate-900 rounded-lg border border-slate-700">
+                    <line x1="30" y1="110" x2="200" y2="110" stroke="#94a3b8" stroke-width="2"/>
+                    <line x1="30" y1="110" x2="30" y2="15" stroke="#94a3b8" stroke-width="2"/>
+                    <polyline points="30,110 80,30 140,30 190,110" fill="none" stroke="#38bdf8" stroke-width="3"/>
+                    <text x="110" y="132" fill="#cbd5e1" font-size="10">Time t (s)</text>
+                    <text x="5" y="65" fill="#cbd5e1" font-size="10" transform="rotate(-90 15,65)">Velocity (m/s)</text>
+                    <text x="80" y="25" fill="#facc15" font-size="10">20</text>
+                    <text x="75" y="123" fill="#cbd5e1" font-size="9">5</text>
+                    <text x="135" y="123" fill="#cbd5e1" font-size="9">12</text>
+                    <text x="185" y="123" fill="#cbd5e1" font-size="9">16</text>
+                </svg>`,
+                question: "Examine the Velocity-Time graph above. Calculate the total displacement of the particle during the interval $t = 0$ to $t = 16\ttext{ s}$.",
+                options: ["200 m", "230 m", "180 m", "320 m"],
+                answer: 1,
+                explanation: "Area under Trapezoid $= \tfrac{1}{2} \ttimes (\ttext{sum of parallel sides}) \ttimes \ttext{height} = \tfrac{1}{2} \ttimes (16 + (12-5)) \ttimes 20 = \tfrac{1}{2} \ttimes (16 + 7) \ttimes 20 = 230\ttext{ m}$."
+            },
+            {
+                type: "Diagram",
+                topic: "Vectors",
+                svg: `<svg width="200" height="130" viewBox="0 0 200 130" class="bg-slate-900 rounded-lg border border-slate-700">
+                    <line x1="30" y1="100" x2="160" y2="100" stroke="#38bdf8" stroke-width="3" marker-end="url(#arrow)"/>
+                    <line x1="160" y1="100" x2="160" y2="30" stroke="#4ade80" stroke-width="3"/>
+                    <line x1="30" y1="100" x2="160" y2="30" stroke="#f43f5e" stroke-width="3"/>
+                    <text x="90" y="118" fill="#38bdf8" font-size="11" font-weight="bold">A = 6 N</text>
+                    <text x="168" y="65" fill="#4ade80" font-size="11" font-weight="bold">B = 8 N</text>
+                    <text x="80" y="55" fill="#f43f5e" font-size="11" font-weight="bold">R</text>
+                </svg>`,
+                question: "Based on the vector addition triangle shown, what is the magnitude of the resultant vector $R$?",
+                options: ["14 N", "10 N", "2 N", "$2\tsqrt{7}\ttext{ N}$"],
+                answer: 1,
+                explanation: "Since vectors $\t\vec{A}$ and $\t\vec{B}$ are orthogonal, $|\t\vec{R}| = \tsqrt{A^2 + B^2} = \tsqrt{6^2 + 8^2} = \tsqrt{36 + 64} = 10\ttext{ N}$."
+            },
+            {
+                type: "Diagram",
+                topic: "Projectile Motion",
+                svg: `<svg width="220" height="130" viewBox="0 0 220 130" class="bg-slate-900 rounded-lg border border-slate-700">
+                    <path d="M 20 110 Q 110 10 200 110" fill="none" stroke="#f59e0b" stroke-width="3" stroke-dasharray="4"/>
+                    <circle cx="110" cy="35" r="5" fill="#ef4444"/>
+                    <line x1="110" y1="35" x2="150" y2="35" stroke="#38bdf8" stroke-width="2"/>
+                    <line x1="110" y1="35" x2="110" y2="65" stroke="#a855f7" stroke-width="2"/>
+                    <text x="155" y="38" fill="#38bdf8" font-size="10">v_x</text>
+                    <text x="115" y="65" fill="#a855f7" font-size="10">g</text>
+                    <text x="90" y="25" fill="#ffffff" font-size="10">Apex P</text>
+                </svg>`,
+                question: "In the parabolic projectile motion trajectory shown, what is the angle between the velocity vector and acceleration vector at apex point $P$?",
+                options: ["$0^\tcirc$", "$45^\tcirc$", "$90^\tcirc$", "$180^\tcirc$"],
+                answer: 2,
+                explanation: "At the peak apex point, vertical velocity component is zero. Instantaneous velocity is purely horizontal ($v_x$) while acceleration due to gravity ($g$) acts vertically downwards. Hence angle is $90^\tcirc$."
+            },
+            {
+                type: "Diagram",
+                topic: "Vernier Callipers",
+                svg: `<svg width="240" height="110" viewBox="0 0 240 110" class="bg-slate-900 rounded-lg border border-slate-700">
+                    <rect x="20" y="20" width="200" height="40" fill="#334155" stroke="#94a3b8"/>
+                    <line x1="40" y1="20" x2="40" y2="35" stroke="#ffffff"/>
+                    <line x1="80" y1="20" x2="80" y2="35" stroke="#ffffff"/>
+                    <line x1="120" y1="20" x2="120" y2="35" stroke="#ffffff"/>
+                    <line x1="160" y1="20" x2="160" y2="35" stroke="#ffffff"/>
+                    <text x="36" y="52" fill="#ffffff" font-size="9">0</text>
+                    <text x="76" y="52" fill="#ffffff" font-size="9">1</text>
+                    <text x="116" y="52" fill="#ffffff" font-size="9">2</text>
+                    <text x="156" y="52" fill="#ffffff" font-size="9">3 cm</text>
+                    <rect x="75" y="60" width="90" height="30" fill="#475569" stroke="#38bdf8"/>
+                    <text x="85" y="80" fill="#38bdf8" font-size="9">Vernier Scale</text>
+                </svg>`,
+                question: "In a Vernier calliper, 10 Vernier scale divisions (VSD) coincide with 9 Main scale divisions (MSD). If $1\ttext{ MSD} = 1\ttext{ mm}$, what is its Least Count (LC)?",
+                options: ["0.1 cm", "0.01 cm", "0.001 cm", "0.05 cm"],
+                answer: 1,
+                explanation: "$\ttext{LC} = 1\ttext{ MSD} - 1\ttext{ VSD} = 1\ttext{ mm} - 0.9\ttext{ mm} = 0.1\ttext{ mm} = 0.01\ttext{ cm}$."
+            },
+            {
+                type: "Diagram",
+                topic: "Uniform Circular Motion",
+                svg: `<svg width="180" height="140" viewBox="0 0 180 140" class="bg-slate-900 rounded-lg border border-slate-700">
+                    <circle cx="90" cy="70" r="45" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="3"/>
+                    <circle cx="135" cy="70" r="6" fill="#38bdf8"/>
+                    <line x1="135" y1="70" x2="135" y2="25" stroke="#f43f5e" stroke-width="2"/>
+                    <line x1="135" y1="70" x2="90" y2="70" stroke="#4ade80" stroke-width="2"/>
+                    <text x="142" y="35" fill="#f43f5e" font-size="10">Velocity V</text>
+                    <text x="100" y="63" fill="#4ade80" font-size="10">F_c</text>
+                </svg>`,
+                question: "For the particle undergoing uniform counter-clockwise circular motion shown above, what is the dot product of instantaneous velocity $V$ and centripetal force $F_c$?",
+                options: ["$F_c \tcdot V$", "0", "$-F_c \tcdot V$", "$F_c \tcdot V^2 / r$"],
+                answer: 1,
+                explanation: "Because $V$ is tangential and $F_c$ is radial, angle $\ttheta = 90^\tcirc$. Thus $\t\vec{F}_c \cdot \t\vec{V} = F_c V \tcos 90^\tcirc = 0$."
+            },
+            {
+                type: "Diagram",
+                topic: "Kinematics Graphs",
+                svg: `<svg width="200" height="130" viewBox="0 0 200 130" class="bg-slate-900 rounded-lg border border-slate-700">
+                    <line x1="25" y1="105" x2="185" y2="105" stroke="#94a3b8" stroke-width="2"/>
+                    <line x1="25" y1="105" x2="25" y2="15" stroke="#94a3b8" stroke-width="2"/>
+                    <path d="M 25 105 Q 100 95 175 20" fill="none" stroke="#a855f7" stroke-width="3"/>
+                    <text x="100" y="122" fill="#cbd5e1" font-size="10">Time t</text>
+                    <text x="10" y="65" fill="#cbd5e1" font-size="10" transform="rotate(-90 10,65)">Position x</text>
+                </svg>`,
+                question: "Look at the Position-Time ($x-t$) curve above. What can be inferred about the acceleration of the particle?",
+                options: [
+                    "Acceleration is zero (constant velocity).",
+                    "Acceleration is positive ($a > 0$).",
+                    "Acceleration is negative ($a < 0$).",
+                    "Motion is impossible."
+                ],
+                answer: 1,
+                explanation: "The $x-t$ curve is concave upwards, meaning slope ($v = dx/dt$) increases with time. Increasing velocity indicates positive acceleration ($a > 0$)."
+            },
+            {
+                type: "Diagram",
+                topic: "Resolution of Vectors",
+                svg: `<svg width="200" height="130" viewBox="0 0 200 130" class="bg-slate-900 rounded-lg border border-slate-700">
+                    <line x1="30" y1="100" x2="170" y2="100" stroke="#64748b" stroke-width="1.5"/>
+                    <line x1="30" y1="100" x2="30" y2="20" stroke="#64748b" stroke-width="1.5"/>
+                    <line x1="30" y1="100" x2="140" y2="35" stroke="#f59e0b" stroke-width="3"/>
+                    <path d="M 60 100 A 30 30 0 0 0 55 85" fill="none" stroke="#38bdf8" stroke-width="1.5"/>
+                    <text x="65" y="92" fill="#38bdf8" font-size="10">θ = 30°</text>
+                    <text x="80" y="55" fill="#f59e0b" font-size="10">A = 10 units</text>
+                </svg>`,
+                question: "In the vector resolution diagram above, find the horizontal component $A_x$ of vector $A = 10\ttext{ units}$ angled at $30^\tcirc$ to the horizontal.",
+                options: ["$5\ttext{ units}$", "$5\tsqrt{3}\ttext{ units} \tapprox 8.66$", "$10\ttext{ units}$", "$2.5\ttext{ units}$"],
+                answer: 1,
+                explanation: "$A_x = A \tcos 30^\tcirc = 10 \ttimes \tfrac{\tsqrt{3}}{2} = 5\tsqrt{3} \tapprox 8.66\ttext{ units}$."
+            },
+            {
+                type: "Diagram",
+                topic: "Kinematics Graphs",
+                svg: `<svg width="200" height="130" viewBox="0 0 200 130" class="bg-slate-900 rounded-lg border border-slate-700">
+                    <line x1="25" y1="65" x2="185" y2="65" stroke="#94a3b8" stroke-width="2"/>
+                    <line x1="25" y1="110" x2="25" y2="15" stroke="#94a3b8" stroke-width="2"/>
+                    <line x1="25" y1="25" x2="100" y2="105" stroke="#f43f5e" stroke-width="3"/>
+                    <line x1="100" y1="105" x2="175" y2="25" stroke="#f43f5e" stroke-width="3"/>
+                    <text x="100" y="125" fill="#cbd5e1" font-size="10">Time t</text>
+                    <text x="12" y="45" fill="#cbd5e1" font-size="10" transform="rotate(-90 12,45)">Velocity v</text>
+                </svg>`,
+                question: "The graph shows velocity of a ball thrown vertically upwards and returning back to thrower. What does the point where velocity line crosses the time axis represent?",
+                options: ["Point of launch", "Apex / Maximum Height", "Point of landing", "Point of zero acceleration"],
+                answer: 1,
+                explanation: "When $v = 0$ along the trajectory of vertical motion, the object reaches its highest vertical peak (Apex)."
+            },
+            {
+                type: "Diagram",
+                topic: "Relative Velocity",
+                svg: `<svg width="220" height="120" viewBox="0 0 220 120" class="bg-slate-900 rounded-lg border border-slate-700">
+                    <line x1="20" y1="40" x2="200" y2="40" stroke="#38bdf8" stroke-dasharray="4"/>
+                    <line x1="20" y1="80" x2="200" y2="80" stroke="#38bdf8" stroke-dasharray="4"/>
+                    <rect x="40" y="52" width="30" height="16" rx="3" fill="#3b82f6"/>
+                    <rect x="130" y="52" width="30" height="16" rx="3" fill="#ef4444"/>
+                    <line x1="70" y1="60" x2="100" y2="60" stroke="#3b82f6" stroke-width="2"/>
+                    <line x1="130" y1="60" x2="100" y2="60" stroke="#ef4444" stroke-width="2"/>
+                    <text x="42" y="48" fill="#3b82f6" font-size="9">Car A (60 km/h)</text>
+                    <text x="130" y="48" fill="#ef4444" font-size="9">Car B (40 km/h)</text>
+                </svg>`,
+                question: "Car A and Car B head directly towards each other as shown. What is the magnitude of relative speed of Car A relative to Car B?",
+                options: ["20 km/h", "100 km/h", "2400 km/h", "50 km/h"],
+                answer: 1,
+                explanation: "When moving in opposite directions, relative speed $v_{\ttext{rel}} = v_A - (-v_B) = v_A + v_B = 60 + 40 = 100\ttext{ km/h}$."
+            },
+            {
+                type: "Diagram",
+                topic: "Projectile Motion",
+                svg: `<svg width="200" height="130" viewBox="0 0 200 130" class="bg-slate-900 rounded-lg border border-slate-700">
+                    <path d="M 20 110 Q 70 20 120 110" fill="none" stroke="#38bdf8" stroke-width="2"/>
+                    <path d="M 20 110 Q 100 20 180 110" fill="none" stroke="#emerald" stroke-width="2" class="stroke-emerald-400"/>
+                    <text x="60" y="50" fill="#38bdf8" font-size="9">θ = 60°</text>
+                    <text x="130" y="70" fill="#4ade80" font-size="9">θ = 30°</text>
+                </svg>`,
+                question: "Two projectiles launched with same speed $u$ at angles $30^\tcirc$ and $60^\tcirc$. Ratio of their maximum heights ($H_{30} / H_{60}$) is:",
+                options: ["1 : 3", "3 : 1", "1 : 1", "1 : 9"],
+                answer: 0,
+                explanation: "$H = \tfrac{u^2 \tsin^2 \ttheta}{2g}$. Ratio $= \tfrac{\tsin^2 30^\tcirc}{\tsin^2 60^\tcirc} = \tfrac{(1/2)^2}{(\tsqrt{3}/2)^2} = \tfrac{1/4}{3/4} = 1 : 3$."
+            }
+        ];
+
+        let shuffledQuestions = [];
+        let userAnswers = {}; // qIndex -> optionIndex
+        let paletteStates = {}; // qIndex -> 'answered' | 'not_answered' | 'marked' | 'not_visited'
+        let currentQuestionIndex = 0;
+        let timerInterval = null;
+        let timeRemainingSeconds = 3600; // 60 minutes
+        let candidateNameStr = "Candidate";
+        let tabSwitchCount = 0;
+        let captchaAnswer = 0;
+
+        function shuffleArray(array) {
+            let arr = [...array];
+            for (let i = arr.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+            return arr;
+        }
+
+        function generateCaptcha() {
+            const num1 = Math.floor(Math.random() * 20) + 1;
+            const num2 = Math.floor(Math.random() * 10) + 1;
+            captchaAnswer = num1 + num2;
+            document.getElementById('captchaQuestion').textContent = `${num1} + ${num2} = ?`;
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('candidateName').value.trim();
+            const passInput = document.getElementById('examPassword').value.trim();
+            const captchaInput = parseInt(document.getElementById('captchaInput').value, 10);
+            const errDiv = document.getElementById('loginError');
+
+            // Format date password DDMMYYYY
+            const now = new Date();
+            const dd = String(now.getDate()).padStart(2, '0');
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const yyyy = now.getFullYear();
+            const expectedPass = `${dd}${mm}${yyyy}`;
+
+            if (passInput !== expectedPass) {
+                errDiv.textContent = `Invalid Exam Password! Password format must be current date (DDMMYYYY): e.g. ${expectedPass}`;
+                errDiv.classList.remove('hidden');
+                return;
+            }
+
+            if (captchaInput !== captchaAnswer) {
+                errDiv.textContent = "Incorrect Math Captcha calculation. Please try again.";
+                errDiv.classList.remove('hidden');
+                generateCaptcha();
+                return;
+            }
+
+            candidateNameStr = nameInput || "Candidate";
+            document.getElementById('candidateBadge').textContent = candidateNameStr;
+            document.getElementById('watermarkText').textContent = `SOUMENDRA SIR'S CLASSES • CANDIDATE: ${candidateNameStr.toUpperCase()} • DO NOT PHOTOGRAPH`;
+            
+            // Hide login modal
+            document.getElementById('loginScreen').classList.add('hidden');
+
+            // Attempt fullscreen enforcement
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            }
+
+            // Initialize CBT Engine
+            initCBTEngine();
+        }
+
+        function initCBTEngine() {
+            // Shuffle questions for distinct sequence each session
+            shuffledQuestions = shuffleArray(rawQuestionBank);
+            
+            // Initialize palette status
+            for (let i = 0; i < shuffledQuestions.length; i++) {
+                paletteStates[i] = 'not_visited';
+            }
+            paletteStates[0] = 'not_answered';
+
+            renderPaletteGrid();
+            loadQuestion(0);
+            startTimer();
+            setupSecurityListeners();
+        }
+
+        function setupSecurityListeners() {
+            // Anti-tab switching tracking
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    tabSwitchCount++;
+                    alert(`SECURITY WARNING #${tabSwitchCount}: Tab switching or minimizing is strictly recorded. Continued violations will force automatic exam submission!`);
+                    if (tabSwitchCount >= 3) {
+                        alert("Maximum tab switch limits exceeded! Your test is being submitted automatically.");
+                        finishExam();
+                    }
+                }
+            });
+
+            // Prevent Copy, Paste, Context Menu
+            document.addEventListener('copy', (e) => e.preventDefault());
+            document.addEventListener('paste', (e) => e.preventDefault());
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'u' || e.key === 's')) {
+                    e.preventDefault();
+                }
+            });
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeRemainingSeconds--;
+                if (timeRemainingSeconds <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Time is up! Submitting your CBT exam automatically.");
+                    finishExam();
+                    return;
+                }
+                const m = Math.floor(timeRemainingSeconds / 60);
+                const s = timeRemainingSeconds % 60;
+                document.getElementById('timer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            }, 1000);
+        }
+
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const q = shuffledQuestions[index];
+
+            if (paletteStates[index] === 'not_visited') {
+                paletteStates[index] = 'not_answered';
+            }
+
+            document.getElementById('questionNumBadge').textContent = `Question ${index + 1} of ${shuffledQuestions.length}`;
+            document.getElementById('questionTypeBadge').textContent = `${q.topic} • ${q.type}`;
+            document.getElementById('questionContainer').innerHTML = q.question;
+
+            // Render SVG diagram if present
+            const diagBox = document.getElementById('diagramContainer');
+            if (q.svg) {
+                diagBox.innerHTML = q.svg;
+                diagBox.classList.remove('hidden');
+            } else {
+                diagBox.classList.add('hidden');
+                diagBox.innerHTML = '';
+            }
+
+            // Render Options
+            const optBox = document.getElementById('optionsContainer');
+            optBox.innerHTML = '';
+
+            q.options.forEach((optText, optIdx) => {
+                const isSelected = userAnswers[index] === optIdx;
+                const optBtn = document.createElement('button');
+                optBtn.className = `w-full text-left p-3.5 rounded-xl border transition flex items-center space-x-3 text-xs sm:text-sm ${
+                    isSelected 
+                        ? 'bg-blue-600/20 border-blue-500 text-blue-200 font-semibold' 
+                        : 'bg-slate-900/90 border-slate-800 text-slate-300 hover:border-slate-700'
+                }`;
+                optBtn.onclick = () => selectOption(optIdx);
+
+                const radioBadge = `<span class="w-5 h-5 rounded-full border flex items-center justify-center shrink-0 text-xs font-bold ${
+                    isSelected ? 'border-blue-400 bg-blue-500 text-white' : 'border-slate-600 text-slate-400'
+                }">${String.fromCharCode(65 + optIdx)}</span>`;
+
+                optBtn.innerHTML = `${radioBadge}<span>${optText}</span>`;
+                optBox.appendChild(optBtn);
+            });
+
+            // Update navigation button states
+            document.getElementById('btnPrev').disabled = index === 0;
+            document.getElementById('btnPrev').style.opacity = index === 0 ? '0.5' : '1';
+
+            renderPaletteGrid();
+            updatePaletteCounts();
+
+            // Trigger MathJax re-render for LaTeX equations
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function selectOption(optIdx) {
+            userAnswers[currentQuestionIndex] = optIdx;
+            paletteStates[currentQuestionIndex] = 'answered';
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function clearResponse() {
+            delete userAnswers[currentQuestionIndex];
+            paletteStates[currentQuestionIndex] = 'not_answered';
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function markForReview() {
+            paletteStates[currentQuestionIndex] = 'marked';
+            saveAndNext();
+        }
+
+        function saveAndNext() {
+            if (userAnswers[currentQuestionIndex] !== undefined && paletteStates[currentQuestionIndex] !== 'marked') {
+                paletteStates[currentQuestionIndex] = 'answered';
+            }
+            if (currentQuestionIndex < shuffledQuestions.length - 1) {
+                loadQuestion(currentQuestionIndex + 1);
+            } else {
+                renderPaletteGrid();
+                updatePaletteCounts();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                loadQuestion(currentQuestionIndex - 1);
+            }
+        }
+
+        function renderPaletteGrid() {
+            const grid = document.getElementById('paletteGrid');
+            grid.innerHTML = '';
+
+            shuffledQuestions.forEach((_, idx) => {
+                const btn = document.createElement('button');
+                const st = paletteStates[idx] || 'not_visited';
+                
+                let stateColorClass = 'bg-slate-700 text-slate-300 border-slate-600'; // default not visited
+                if (st === 'answered') stateColorClass = 'bg-emerald-600 text-white border-emerald-500';
+                else if (st === 'not_answered') stateColorClass = 'bg-rose-600 text-white border-rose-500';
+                else if (st === 'marked') stateColorClass = 'bg-purple-600 text-white border-purple-400';
+
+                const isCurrent = idx === currentQuestionIndex;
+                const activeRing = isCurrent ? 'ring-2 ring-blue-400 ring-offset-2 ring-offset-slate-950 font-black scale-105' : 'font-medium';
+
+                btn.className = `w-9 h-9 rounded-lg border text-xs flex items-center justify-center transition-all ${stateColorClass} ${activeRing}`;
+                btn.textContent = idx + 1;
+                btn.onclick = () => loadQuestion(idx);
+                grid.appendChild(btn);
+            });
+        }
+
+        function updatePaletteCounts() {
+            let answered = 0, notAnswered = 0, marked = 0, notVisited = 0;
+            Object.values(paletteStates).forEach(st => {
+                if (st === 'answered') answered++;
+                else if (st === 'not_answered') notAnswered++;
+                else if (st === 'marked') marked++;
+                else notVisited++;
+            });
+
+            document.getElementById('countAnswered').textContent = answered;
+            document.getElementById('countNotAnswered').textContent = notAnswered;
+            document.getElementById('countMarked').textContent = marked;
+            document.getElementById('countNotVisited').textContent = notVisited;
+        }
+
+        function confirmFinishExam() {
+            if (confirm("Are you sure you want to finish and submit your CBT exam now?")) {
+                finishExam();
+            }
+        }
+
+        function finishExam() {
+            clearInterval(timerInterval);
+
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unattemptedCount = 0;
+
+            const topicPerformance = {}; // topic -> { correct: 0, total: 0 }
+
+            shuffledQuestions.forEach((q, idx) => {
+                if (!topicPerformance[q.topic]) {
+                    topicPerformance[q.topic] = { correct: 0, total: 0 };
+                }
+                topicPerformance[q.topic].total++;
+
+                const userAns = userAnswers[idx];
+                if (userAns === undefined) {
+                    unattemptedCount++;
+                } else if (userAns === q.answer) {
+                    correctCount++;
+                    topicPerformance[q.topic].correct++;
+                } else {
+                    wrongCount++;
+                }
+            });
+
+            const totalScore = (correctCount * 4) - (wrongCount * 1);
+            const totalAttempted = correctCount + wrongCount;
+            const accuracyPct = totalAttempted > 0 ? Math.round((correctCount / totalAttempted) * 100) : 0;
+
+            // Populate Scorecard
+            document.getElementById('reportCandidateInfo').textContent = `Candidate: ${candidateNameStr} | Date: ${new Date().toLocaleDateString()}`;
+            document.getElementById('scoreMarks').textContent = `${totalScore} / 180`;
+            document.getElementById('scoreAccuracy').textContent = `${accuracyPct}%`;
+            document.getElementById('scoreCorrectWrong').textContent = `${correctCount} / ${wrongCount}`;
+            document.getElementById('scoreUnattempted').textContent = unattemptedCount;
+
+            // Generate Weak Area Analysis
+            const weakReport = document.getElementById('weakAreasReport');
+            weakReport.innerHTML = '';
+            
+            Object.entries(topicPerformance).forEach(([top, data]) => {
+                const pct = Math.round((data.correct / data.total) * 100);
+                const isWeak = pct < 60;
+                const div = document.createElement('div');
+                div.className = 'flex items-center justify-between p-2 rounded bg-slate-950 border border-slate-800';
+                div.innerHTML = `
+                    <span class="text-slate-300 font-medium">${top}</span>
+                    <span class="font-bold ${isWeak ? 'text-rose-400' : 'text-emerald-400'}">${data.correct}/${data.total} (${pct}%) ${isWeak ? '• Needs Practice' : '• Strong'}</span>
+                `;
+                weakReport.appendChild(div);
+            });
+
+            // Render Solutions
+            renderSolutions();
+
+            // Render Chart.js
+            renderPerformanceChart(correctCount, wrongCount, unattemptedCount);
+
+            // Show Result Modal
+            document.getElementById('resultModal').classList.remove('hidden');
+
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise();
+            }
+        }
+
+        function renderSolutions() {
+            const solBox = document.getElementById('solutionsContainer');
+            solBox.innerHTML = '';
+
+            shuffledQuestions.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.answer;
+                const isUnattempted = userAns === undefined;
+
+                let statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">CORRECT (+4)</span>`;
+                if (isUnattempted) {
+                    statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-700 text-slate-300">UNATTEMPTED (0)</span>`;
+                } else if (!isCorrect) {
+                    statusBadge = `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-500/20 text-rose-400 border border-rose-500/30">WRONG (-1)</span>`;
+                }
+
+                const userAnsText = isUnattempted ? "None" : `${String.fromCharCode(65 + userAns)}. ${q.options[userAns]}`;
+                const correctAnsText = `${String.fromCharCode(65 + q.answer)}. ${q.options[q.answer]}`;
+
+                const card = document.createElement('div');
+                card.className = 'p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-2';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="font-bold text-slate-200">Q${idx + 1}. [${q.topic}]</span>
+                        ${statusBadge}
+                    </div>
+                    <div class="text-slate-300 font-medium">${q.question}</div>
+                    ${q.svg ? `<div class="my-2 flex justify-center">${q.svg}</div>` : ''}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 pt-2 border-t border-slate-900">
+                        <div class="text-slate-400">Your Selection: <span class="${isCorrect ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}">${userAnsText}</span></div>
+                        <div class="text-slate-400">Correct Option: <span class="text-emerald-400 font-bold">${correctAnsText}</span></div>
+                    </div>
+                    <div class="bg-slate-900/90 p-2.5 rounded-lg border border-slate-800 text-cyan-200/90 leading-relaxed mt-2">
+                        <strong>Explanation:</strong> ${q.explanation}
+                    </div>
+                `;
+                solBox.appendChild(card);
+            });
+        }
+
+        function renderPerformanceChart(correct, wrong, unattempted) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Correct (+4)', 'Wrong (-1)', 'Unattempted'],
+                    datasets: [{
+                        data: [correct, wrong, unattempted],
+                        backgroundColor: ['#10b981', '#f43f5e', '#64748b'],
+                        borderWidth: 2,
+                        borderColor: '#0f172a'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#cbd5e1', font: { size: 11 } }
+                        }
+                    }
+                }
+            });
+        }
+
+        function exportScorecardImage() {
+            const exportNode = document.getElementById('scorecardExportArea');
+            html2canvas(exportNode, { backgroundColor: '#020617' }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `NEET_Physics_Scorecard_${candidateNameStr.replace(/\s+/g, '_')}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        function shareWhatsApp() {
+            const marksStr = document.getElementById('scoreMarks').textContent;
+            const accuracyStr = document.getElementById('scoreAccuracy').textContent;
+            const message = `*Soumendra Sir's Biology Classes-8910587106*\n*NEET PHYSICS XI EXAM SERIES 1 SET A*\nCandidate: ${candidateNameStr}\nScore: ${marksStr}\nAccuracy: ${accuracyStr}\nStatus: Completed Verified CBT Test.`;
+            const encoded = encodeURIComponent(message);
+            window.open(`https://api.whatsapp.com/send?phone=918910587106&text=${encoded}`, '_blank');
+        }
+
+        // Initialize dynamic math captcha on document load
+        window.onload = function() {
+            generateCaptcha();
+        };
+    </script>
+</body>
+</html>
